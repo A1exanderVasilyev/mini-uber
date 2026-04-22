@@ -11,5 +11,5 @@ public class NearbyDriverResponse {
     private String driverId;
     private double longitude;
     private double latitude;
-    private String distanceInKm;
+    private double distanceInKm;
 }
