@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class DriverLocationRequest {
     private String driverId;
     private double longitude;
-    private double altitude;
+    private double latitude;
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class NearbyDriverResponse {
     private String driverId;
     private double longitude;
-    private double altitude;
+    private double latitude;
     private String distanceInKm;
 }
