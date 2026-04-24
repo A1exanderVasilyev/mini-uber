@@ -1,3 +1,7 @@
 spring:
   application:
     name: ride-service
+
+fare:
+  base-price: 50
+  price-per-km: 12
