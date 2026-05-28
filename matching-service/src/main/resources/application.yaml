@@ -1,7 +1,9 @@
+server:
+  port: 8084
+
 spring:
   application:
     name: matching-service
-  port: 8084
 
   #Consumer
   kafka:
@@ -11,8 +13,19 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            use:
+              type:
+                headers: false
+            value:
+              default:
+                type: com.miniuber.matchingservice.events.RideRequestedEvent
 
-  #Producer
+    #Producer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
