@@ -1,19 +1,33 @@
 package com.miniuber.matchingservice.client;
 
 import com.miniuber.matchingservice.dto.NearbyDriverResponse;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
-@FeignClient(name = "location-service", url = "${location.service.url}")
-public interface LocationServiceClient {
 
-    @GetMapping("/api/v1/locations/drivers/nearby")
-    List<NearbyDriverResponse> getNearbyDrivers(
-            @RequestParam double longitude,
-            @RequestParam double latitude,
-            @RequestParam double radius
-    );
+@Service
+public class LocationServiceClient {
+    private final RestClient restClient;
+
+    public LocationServiceClient(@Value("${location.service.url}") String baseUrl) {
+        this.restClient = RestClient.builder()
+                .baseUrl(baseUrl)
+                .build();
+    }
+
+    public List<NearbyDriverResponse> getNearbyDrivers(double longitude, double latitude, double radius) {
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/v1/locations/drivers/nearby")
+                        .queryParam("longitude", longitude)
+                        .queryParam("latitude", latitude)
+                        .queryParam("radius", radius)
+                        .build())
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
 }
